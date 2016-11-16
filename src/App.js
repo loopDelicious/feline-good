@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import $ from 'jquery';
 import Dropdown from './dropdown.js';
+import Admin from './admin.js';
 
 // fitness {
 //     exercises {
@@ -10,10 +11,13 @@ import Dropdown from './dropdown.js';
 //     }
 // }
 
+// admin link to new component displaying all and allowing edit / delete
+
 class App extends Component {
 
     state = {
-        exercises: []
+        exercises: [],
+        admin: false
     };
 
     handleForm = (e) => {
@@ -46,14 +50,21 @@ class App extends Component {
         });
     };
 
+    handleAdminToggle = () => {
+        this.setState({
+            admin: !this.state.admin
+        })
+    };
+
     handleGetWorkout = () => {
         $.ajax({
-            url: 'http://localhost:5000',
+            url: 'http://localhost:5000/exercises',
             type: 'get',
             contentType: "application/json",
-            success: function(exercises) {
+            success: function(obj) {
+                var concatted = this.state.exercises.concat(obj);
                 this.setState({
-                    exercises: exercises
+                    exercises: concatted
                 })
             }.bind(this)
         })
@@ -85,25 +96,30 @@ class App extends Component {
 
         return (
             <div className="exercise-wrapper">
+                <a href="#" onClick={this.handleAdminToggle}>{ this.state.admin ? "go to regular view" : "go to admin view" }</a>
+                { this.state.admin ? <Admin/> :
+                    <div className="reg-user">
+                        <div className="workout cf">
+                            <iframe src="http://cat.coach/cat.php" className='cat'/>
+                            { workout_length < 1 ?
+                                <button id="get-workout" onClick={this.handleGetWorkout}>Make me sweat</button>
+                                :
+                                <ul id="exercise-list">
+                                    {exercises}
+                                </ul>
+                            }
+                        </div>
 
-                <div className="workout cf">
-                    <iframe src="http://cat.coach/cat.php" className='cat' />
-                    { workout_length < 1 ?
-                        <button id="get-workout" onClick={this.handleGetWorkout}>Make me sweat</button>
-                        :
-                        <ul id="exercise-list">
-                            {exercises}
-                        </ul>
-                    }
-                </div>
+                        <div className="admin cf">
+                            <form id="exercise-input" ref="user_form" onSubmit={this.handleForm}>
+                            <input className="exercise-text" ref="new-exercise" placeholder="Add a move" autoFocus="true" />
+                            <Dropdown />
+                            <button className="exercise-button" type="submit">Add</button>
+                            </form>
+                        </div>
+                    </div>
+                }
 
-                <div className="admin cf">
-                    <form id="exercise-input" ref="user_form" onSubmit={this.handleForm}>
-                        <input className="exercise-text" ref="new-exercise" placeholder="Add a move" autoFocus="true" />
-                        <Dropdown />
-                        <button className="exercise-button" type="submit">Add</button>
-                    </form>
-                </div>
             </div>
         );
   };

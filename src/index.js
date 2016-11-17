@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-import './reset.css';
-import './index.css';
-import './variables.css';
-import './dropdown.css';
-import './App.css';
+import App from './javascripts/App.js';
+import './css/reset.css';
+import './css/index.css';
+import './css/variables.css';
+import './css/dropdown.css';
+import './css/workout.css';
+import './css/App.css';
 
 ReactDOM.render(
   <App />,

@@ -8,7 +8,7 @@
 .dropdown select {
     background-color: var(--secondary-color);
     color: var(--lightest-text);
-    height: 40px;
+    height: 30px;
     padding: 0 15px;
     font-size: 16px;
     border: 1px solid transparent;

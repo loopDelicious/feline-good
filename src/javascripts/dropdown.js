@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 class Dropdown extends Component {
 
-    items = ["Shoulders", "Arms", "Back", "Core", "Legs", "Butt"];
+    items = ["Shoulders", "Arms", "Back", "Core", "Legs", "Butt", "Chest", "Cardio"];
 
     state = {
         selectedMuscle: ''

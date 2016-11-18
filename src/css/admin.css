@@ -1,0 +1,22 @@
+#exercise-list {
+    margin-left: 300px;
+}
+
+#all-exercise-list ul {
+    list-style-type: circle;
+    margin: 15px 0;
+}
+
+#all-exercise-list {
+    margin: 15px;
+}
+
+#all-exercise-list li {
+    margin-bottom: 10px;
+    color: var(--dark-color);
+    line-height: 30px;
+}
+
+#all-exercise-list a {
+    margin: 10px;
+}

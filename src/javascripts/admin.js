@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import $ from 'jquery';
-import Dropdown from './dropdown.js';
 import List from './list.js';
+import Input from './input.js';
 
 class Admin extends Component {
 
     state = {
         allExercises: [],
-        muscle: '',
     };
 
     componentDidMount() {
@@ -23,52 +22,7 @@ class Admin extends Component {
         })
     };
 
-    handleEdit = (exercise) => {
-
-        $.ajax({
-            url: 'http://localhost:5000/edit',
-            data: exercise,
-            type: 'put',
-            success: function(res) {
-                alert(res)
-            }
-        })
-    };
-
-    handleDelete = (exercise) => {
-
-        // console.log(exercise); //582d080c95a3ebc19e29f5cc
-        // console.log(typeof(exercise)); //string
-        $.ajax({
-            url: 'http://localhost:5000/delete',
-            data: exercise,
-            type: 'delete',
-            success: (data) => {
-                var oidToBeDeleted = data._id.$oid;
-                var newList = this.state.allExercises.filter( (exercise) => {
-                    return exercise._id.$oid != oidToBeDeleted
-                });
-                this.setState({
-                    allExercises: newList
-                });
-            }
-        })
-    };
-
-    handleNewExercise = (muscleValue) => {
-        this.setState({
-            muscle: muscleValue
-        })
-    };
-
-    handleForm = (e) => {
-        e.preventDefault();
-
-        var data = {
-            alias: this.refs['new-exercise'].value,
-            body: this.state.muscle
-        };
-
+    handleAdd = (data) => {
         $.ajax({
             url: 'http://localhost:5000/add',
             type: 'post',
@@ -78,8 +32,56 @@ class Admin extends Component {
                 this.setState({
                     allExercises: concatted
                 });
-                this.refs['user_form'].reset();
             }.bind(this)
+        })
+    };
+
+    handleEdit = (obj) => {
+
+        // hang out to object - mongoDB returns success number not object
+        var forSuccess = obj;
+
+        $.ajax({
+            url: 'http://localhost:5000/edit',
+            type: 'put',
+            data: obj,
+            success: () => {
+                var oidToBeEdited = forSuccess._id;
+                var indexOfOid = this.state.allExercises.map( (exercise) => {
+                    return exercise._id.$oid
+                }).indexOf(oidToBeEdited);
+
+                var toBeInserted = {
+                    _id: {
+                        $oid: forSuccess._id
+                    },
+                    title: forSuccess.title,
+                    benefit: forSuccess.benefit
+                };
+
+                this.state.allExercises[indexOfOid] = toBeInserted;
+                this.setState({
+                   allExercises: this.state.allExercises
+                });
+            }
+        })
+    };
+
+    handleDelete = (exercise) => {
+
+        $.ajax({
+            url: 'http://localhost:5000/delete',
+            data: exercise,
+            type: 'delete',
+            success: (data) => {
+                var oidToBeDeleted = data._id.$oid;
+                var newList = this.state.allExercises.filter( (exercise) => {
+                    return exercise._id.$oid !== oidToBeDeleted
+                });
+                this.setState({
+                    allExercises: newList
+                });
+            }
         })
     };
 
@@ -94,13 +96,11 @@ class Admin extends Component {
                     delete={this.handleDelete.bind(this)}
                 />
 
-                <div className="admin cf">
-                    <form id="exercise-input" ref="user_form" onSubmit={this.handleForm}>
-                        <input className="exercise-text" ref="new-exercise" placeholder="Add a new move" autoFocus="true" />
-                        <Dropdown onSelectMuscle={this.handleNewExercise} />
-                        <button className="exercise-button" type="submit">Add</button>
-                    </form>
-                </div>
+                <Input
+                    allExercises={this.state.allExercises}
+                    edit={this.handleEdit.bind(this)}
+                    add={this.handleAdd.bind(this)}
+                />
 
             </div>
         )

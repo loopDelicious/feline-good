@@ -7,6 +7,14 @@ class Workout extends Component {
         exercises: [],
     };
 
+    shuffle = (a) => {
+        for (let i = a.length; i; i--) {
+            let j = Math.floor(Math.random() * i);
+            [a[i - 1], a[j]] = [a[j], a[i - 1]];
+            }
+        return a;
+        };
+
     handleExerciseToggle = (index) => {
         this.state.exercises[index].complete = !this.state.exercises[index].complete;
         this.setState({
@@ -16,15 +24,17 @@ class Workout extends Component {
 
     handleGetWorkout = () => {
         $.ajax({
-            url: 'http://localhost:5000/exercises',
+            url: 'http://localhost:5000/all',
             type: 'get',
             contentType: "application/json",
-            success: function(obj) {
-                var concatted = this.state.exercises.concat(obj);
+            success: (objList) => {
+                var shuffled = this.shuffle(objList);
+                var firstFive = shuffled.slice(0,5);
+                var concatted = this.state.exercises.concat(firstFive);
                 this.setState({
                     exercises: concatted
                 })
-            }.bind(this)
+            }
         })
     };
 
@@ -43,7 +53,7 @@ class Workout extends Component {
                         />
                         <div className="slider round"></div>
                     </label>
-                    {exercise.alias}
+                    {exercise.title}
                 </li>
             )
         });
@@ -66,7 +76,7 @@ class Workout extends Component {
                             <div className="focus cf">
                                 <div className="status">
                                     <span id="counter">
-                                        {completeCount} out of {workoutLength} completed { workoutLength != 0 && workoutLength == completeCount ?
+                                        {completeCount} out of {workoutLength} completed { workoutLength !== 0 && workoutLength === completeCount ?
                                         <span id="congrats">HOORAY!!!</span> : null}
                                     </span>
                                 </div>

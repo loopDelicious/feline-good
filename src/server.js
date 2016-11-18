@@ -2,12 +2,10 @@ var express = require('express');
 var request = require('request');
 var bodyParser = require('body-parser');
 var key = require('../secrets.js');
-var $ = require('jquery');
 
 var app = express();
 
-// allow CORS access to indeed domain
-// from https://blog.javascripting.com/2015/01/17/dont-hassle-with-cors/
+// allow CORS access
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -23,27 +21,11 @@ var baseUrl = 'https://api.mlab.com/api/1';
 
 app.get('/', function(req, res) {
 
-    console.log(url);
     req.pipe(request(url)).pipe(res);
 
 });
 
-// GET request to return 5 exercises from db
-app.get('/exercises', function (req, res) {
-
-    var url = baseUrl + '/databases/fitness/collections/exercises?l=5&apiKey=' + key;
-
-    request.get(url, function (error, response, body) {
-        if (!error && response.statusCode == 200) {
-            var info = JSON.parse(body);
-            res.send(info);
-        } else {
-            res.status(400).send(error);
-        }
-    });
-});
-
-// GET request to return all exercises from db
+// GET request to return ALL exercises from db
 app.get('/all', function (req, res) {
 
     var url = baseUrl + '/databases/fitness/collections/exercises?apiKey=' + key;
@@ -58,12 +40,12 @@ app.get('/all', function (req, res) {
     });
 });
 
-// ADD a new exercise to db
+// POST request to ADD a new exercise to db
 app.post('/add', function(req, res) {
 
     var data = {
-        alias: req.body.alias,
-        body: req.body.body
+        title: req.body.title.toLowerCase(),
+        benefit: req.body.benefit.toLowerCase()
     };
 
     var url = baseUrl + '/databases/fitness/collections/exercises?apiKey=' + key;
@@ -84,13 +66,13 @@ app.post('/add', function(req, res) {
     });
 });
 
-// EDIT an exercise in db
-app.put('/edit', function(req, res, next) {
+// PUT request to EDIT an exercise in db
+app.put('/edit', function(req, res) {
 
     var data = {
-        id: req.body._id.$oid,
-        alias: req.body.alias,
-        body: req.body.body
+        _id: {$oid: req.body._id},
+        title: req.body.title,
+        benefit: req.body.benefit
     };
 
     var url = baseUrl + '/databases/fitness/collections/exercises?apiKey=' + key;
@@ -111,7 +93,7 @@ app.put('/edit', function(req, res, next) {
     });
 });
 
-// DELETE an exercise from db
+// DELETE request to DELETE an exercise from db
 app.delete('/delete', function(req, res) {
 
     var response = JSON.stringify(req.body);
@@ -128,7 +110,6 @@ app.delete('/delete', function(req, res) {
         }
     });
 });
-
 
 
 app.listen(process.env.PORT || 5000);

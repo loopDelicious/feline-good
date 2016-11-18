@@ -1,0 +1,31 @@
+.input{
+    width: 60%;
+    float: right;
+}
+
+.exercise-text {
+    border: 1px solid var(--lightest-text);
+    border-bottom: 1px solid var(--main-color);
+    border-radius: 4px 0 0 4px;
+    height: 30px;
+    width: 450px;
+    position: relative;
+    margin-left: 40px;
+    padding-left: 10px;
+}
+
+.exercise-button {
+    height: 30px;
+    width: 80px;
+    font-size: 16px;
+    background-color: var(--main-color);
+    border: 1px solid transparent;
+    border-radius: 0 4px 4px 0;
+    color: var(--lightest-text);
+    position: absolute;
+    cursor: pointer;
+}
+
+.exercise-button:hover {
+    color: white;
+}

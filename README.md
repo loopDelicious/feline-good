@@ -1,4 +1,5 @@
-#### CRUD example using React, Express and mLab's Data API
+# CRUD example #
+#### Using React, Express and mLab's Data API
 
 ![catSlider](https://github.com/loopDelicious/feline-good/blob/master/src/pushup2.png)
 

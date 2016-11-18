@@ -1,13 +1,13 @@
 #### CRUD example using React, Express and mLab's Data API
 
-(https://github.com/loopDelicious/feline-good/blob/master/src/pushup2.png)
+![catSlider](https://github.com/loopDelicious/feline-good/blob/master/src/pushup2.png)
 
 * GET request to display exercises in db
 * POST request to ADD a new exercise to db
 * DELETE request to DELETE an exercise from db
 * PUT request to EDIT an exercise in db
 
-(https://github.com/loopDelicious/feline-good/blob/master/src/workout.png)
+![startButton](https://github.com/loopDelicious/feline-good/blob/master/src/workout.png)
 
 ### For Development:
 

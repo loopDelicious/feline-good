@@ -1,9 +1,12 @@
 .input{
-    width: 60%;
+    width: 70%;
     float: right;
 }
 
 .exercise-text {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
     border: 1px solid var(--lightest-text);
     border-bottom: 1px solid var(--main-color);
     border-radius: 4px 0 0 4px;
@@ -12,6 +15,7 @@
     position: relative;
     margin-left: 40px;
     padding-left: 10px;
+    font-size: 16px;
 }
 
 .exercise-button {

@@ -20,6 +20,10 @@
     color: white;
 }
 
+#exercise-list {
+    margin-left: 300px;
+}
+
 #congrats {
     color: var(--main-color);
     font-size: 40px;

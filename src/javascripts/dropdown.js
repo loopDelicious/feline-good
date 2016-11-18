@@ -22,7 +22,7 @@ class Dropdown extends Component {
         return (
             <div className="dropdown">
                 <select className="dropdown-content" ref='muscleGroup' onChange={this.handleMuscleChange}>
-                    <option value="" disabled selected >Choose one</option>
+                    <option value="" disabled selected >Choose one &#x25be;</option>
                     {listItems}
                 </select>
             </div>

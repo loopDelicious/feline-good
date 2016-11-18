@@ -32,7 +32,7 @@ class Input extends Component {
                 <form id="exercise-input" ref="user_form" onSubmit={this.handleForm}>
                     <input className="exercise-text" ref="new-exercise" placeholder={this.props.editing ? "Update this move" : "Add a new move"} autoFocus="true" />
                     <Dropdown onSelectMuscle={this.handleNewExercise} />
-                    <button className="exercise-button" type="submit">{this.props.editing ? "Edit" : "Add"}</button>
+                    <button className="exercise-button" type="submit">{this.props.editing ? "Edit": "Add"}</button>
                 </form>
             </div>
         )

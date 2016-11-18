@@ -2,10 +2,9 @@
 #exercise-input .dropdown {
     position: relative;
     display: inline-block;
-    border-radius: 0;
 }
 
-.dropdown select {
+#exercise-input select {
     background-color: var(--secondary-color);
     color: var(--lightest-text);
     height: 30px;
@@ -13,6 +12,8 @@
     font-size: 16px;
     border: 1px solid transparent;
     cursor: pointer;
+    border-radius: 0;
+    -webkit-appearance: none;
 }
 
 select:hover {

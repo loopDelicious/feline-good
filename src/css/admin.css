@@ -1,14 +1,10 @@
-#exercise-list {
-    margin-left: 300px;
+#all-exercise-list {
+    margin: 15px;
 }
 
 #all-exercise-list ul {
     list-style-type: circle;
     margin: 15px 0;
-}
-
-#all-exercise-list {
-    margin: 15px;
 }
 
 #all-exercise-list li {

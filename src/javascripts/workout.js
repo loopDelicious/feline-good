@@ -75,10 +75,11 @@ class Workout extends Component {
                             :
                             <div className="focus cf">
                                 <div className="status">
-                                    <span id="counter">
+                                    <div id="counter">
                                         {completeCount} out of {workoutLength} completed { workoutLength !== 0 && workoutLength === completeCount ?
                                         <span id="congrats">HOORAY!!!</span> : null}
-                                    </span>
+                                        <br />
+                                    </div>
                                 </div>
                                 <ul id="exercise-list">
                                     {exercises}

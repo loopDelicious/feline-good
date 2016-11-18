@@ -48,7 +48,6 @@ class List extends Component {
                     )})
                 }
             </ul>
-
         )
     };
 }

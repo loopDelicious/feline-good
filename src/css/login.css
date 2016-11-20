@@ -1,11 +1,12 @@
 .Login {
-    width: 250px;
+    width: 275px;
     text-align: center;
     margin: 15px;
     padding-top: 3px;
     border: 1px solid var(--lightest-text);
     border-radius: 4px;
     background-color: var(--lightest-text);
+    float: right;
 }
 
 .login-intro {

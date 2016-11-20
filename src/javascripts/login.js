@@ -30,6 +30,7 @@ class Login extends Component {
             },
             dataType: 'json',
             success: function () {
+                // TODO: add admin true/false
                 this.setState({
                     existingUser: true
                 });

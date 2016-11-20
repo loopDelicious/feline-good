@@ -31,7 +31,7 @@ class App extends Component {
     render() {
 
         return (
-            <div className="exercise-wrapper">
+            <div className="exercise-wrapper cf">
 
                 { this.state.loggedIn ?
                     <div className="when-logged-in">

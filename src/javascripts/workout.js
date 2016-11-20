@@ -64,31 +64,31 @@ class Workout extends Component {
 
         return (
 
-            <div className="reg-user">
-                <div className="workout cf">
 
-                    <iframe src="http://cat.coach/cat.php" className='cat'/>
+            <div className="workout cf">
 
-                    <div className="cf">
-                        { workoutLength < 1 ?
-                            <button id="get-workout" onClick={this.handleGetWorkout}>Make me sweat</button>
-                            :
-                            <div className="focus cf">
-                                <div className="status">
-                                    <div id="counter">
-                                        {completeCount} out of {workoutLength} completed { workoutLength !== 0 && workoutLength === completeCount ?
-                                        <span id="congrats">HOORAY!!!</span> : null}
-                                        <br />
-                                    </div>
+                <iframe src="http://cat.coach/cat.php" className='cat'/>
+
+                <div className="cat-hero cf">
+                    { workoutLength < 1 ?
+                        <button id="get-workout" onClick={this.handleGetWorkout}>Make me sweat</button>
+                        :
+                        <div className="focus cf">
+                            <div className="status">
+                                <div id="counter">
+                                    {completeCount} out of {workoutLength} completed { workoutLength !== 0 && workoutLength === completeCount ?
+                                    <span id="congrats">HOORAY!!!</span> : null}
+                                    <br />
                                 </div>
-                                <ul id="exercise-list">
-                                    {exercises}
-                                </ul>
                             </div>
-                        }
-                    </div>
+                            <ul id="exercise-list">
+                                {exercises}
+                            </ul>
+                        </div>
+                    }
                 </div>
             </div>
+
         )
     };
 

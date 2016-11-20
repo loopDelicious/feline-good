@@ -2,6 +2,7 @@ var express = require('express');
 var request = require('request');
 var bodyParser = require('body-parser');
 var key = require('../secrets.js');
+var bcrypt = require("bcryptjs");
 
 var app = express();
 
@@ -24,6 +25,8 @@ app.get('/', function(req, res) {
     req.pipe(request(url)).pipe(res);
 
 });
+
+// ***************** EXERCISES collection **********************
 
 // GET request to return ALL exercises from db
 app.get('/all', function (req, res) {
@@ -107,6 +110,57 @@ app.delete('/delete', function(req, res) {
         }
         else {
             res.status(400).send(error);
+        }
+    });
+});
+
+// ***************** USERS collection **********************
+
+// POST to ADD new user to users collection
+app.post('/register', function(req, res) {
+
+    var email = req.body.email;
+
+    var hash = bcrypt.hash(req.body.password, 8, function(err, hash) {
+
+        var url = baseUrl + '/databases/fitness/collections/users?apiKey=' + key;
+
+        var data = {
+            email: email,
+            hash: hash,
+            admin: false
+        };
+
+        request.post({
+            url: url,
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }, function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+                res.send(body);
+            }
+            else {
+                res.status(400).send(error);
+            }
+        });
+    });
+});
+
+// POST to verify user in users table
+app.post('/login', function(req, res) {
+
+    var email = req.body.email;
+
+    var url = baseUrl + '/databases/fitness/collections/users?q={"email":' + email + '}&apiKey=' + key;
+
+    request.post(url, function (error, response, body) {
+        if (bcrypt.compareSync(req.body.password, body.hash)) {
+            res.json(body);
+        } else   {
+            res.status(422);
+            res.send('None shall pass');
         }
     });
 });

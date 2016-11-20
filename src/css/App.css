@@ -6,6 +6,21 @@ a:hover {
     color: var(--tertiary-color);
 }
 
+button {
+    background: var(--secondary-color);
+    color: white;
+    border: 0;
+    border-radius: 4px;
+    padding: 5px 15px;
+    margin: 15px;
+    font-size: 16px;
+}
+
+button:hover {
+    color: var(--lightest-text);
+    cursor: pointer;
+}
+
 .exercise-wrapper {
     padding: 0 25px;
     margin: 15px 0;

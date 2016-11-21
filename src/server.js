@@ -151,12 +151,21 @@ app.post('/register', function(req, res) {
 // POST to verify user in users table
 app.post('/login', function(req, res) {
 
-    var email = req.body.email;
+    var email = JSON.stringify(req.body.email);
+    var password = JSON.stringify(req.body.password);
 
-    var url = baseUrl + '/databases/fitness/collections/users?q={"email":' + email + '}&apiKey=' + key;
+    var url = baseUrl + '/databases/fitness/collections/users?q={email:' + email + '}&apiKey=' + key;
 
-    request.post(url, function (error, response, body) {
-        if (bcrypt.compareSync(req.body.password, body.hash)) {
+    request.get({
+        url: url,
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }, function (error, response, body) {
+        var user = JSON.parse(body);
+        var hash = JSON.stringify(user[0].hash);
+
+        if (user != null && bcrypt.compareSync(password.slice(1,-1), hash.slice(1,-1))) {
             res.json(body);
         } else   {
             res.status(422);

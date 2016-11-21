@@ -7,6 +7,7 @@ class App extends Component {
 
     state = {
         admin: false,
+        adminToggle: false,
         loggedIn: false
     };
 
@@ -22,9 +23,15 @@ class App extends Component {
         });
     };
 
+    userAdmin = () => {
+        this.setState({
+            admin: true
+        });
+    };
+
     handleAdminToggle = () => {
         this.setState({
-            admin: !this.state.admin
+            adminToggle: !this.state.adminToggle
         })
     };
 
@@ -37,13 +44,18 @@ class App extends Component {
                     <div className="when-logged-in">
 
                         <a href="#" onClick={this.handleLogout}>Log Out</a>
-                        <a href="#" onClick={this.handleAdminToggle}>{ this.state.admin ? "go to regular view" : "go to admin view" }</a>
+                        <br />
+                        { this.state.admin ?
+                            <a href="#" onClick={this.handleAdminToggle}>{ this.state.adminToggle ? "go to regular view" : "go to admin view" }</a>
+                            :
+                            null
+                        }
                     </div>
-                :
-                    <Login loginCallback={this.userLoggedIn} />
+                    :
+                    <Login loginCallback={this.userLoggedIn} adminCallback={this.userAdmin} />
                 }
 
-                { this.state.admin ? <Admin /> : <Workout /> }
+                { this.state.adminToggle ? <Admin /> : <Workout /> }
 
             </div>
         );

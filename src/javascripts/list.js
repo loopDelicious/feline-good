@@ -24,6 +24,8 @@ class List extends Component {
 
             <ul id="all-exercise-list">
 
+                <h3>All your Moves</h3>
+
                 {this.props.allExercises.map( (exercise) => {
 
                     return (

@@ -6,6 +6,12 @@ a:hover {
     color: var(--tertiary-color);
 }
 
+h3 {
+    color: var(--main-color);
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
 button {
     background: var(--secondary-color);
     color: white;
@@ -27,3 +33,6 @@ button:hover {
     max-width: 1000px;
 }
 
+.when-logged-in {
+    float: right;
+}

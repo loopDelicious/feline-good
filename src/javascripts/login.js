@@ -29,18 +29,20 @@ class Login extends Component {
                 password: password
             },
             dataType: 'json',
-            success: function () {
+            success: (data) => {
                 // TODO: add admin true/false
+
+                if (data != null && JSON.parse(data)[0].admin) { this.props.adminCallback(); }
                 this.setState({
                     existingUser: true
                 });
                 this.props.loginCallback();
-            }.bind(this),
-            error: function(err) {
+            },
+            error: (err) => {
                 this.setState({
                     error: true
                 });
-            }.bind(this)
+            }
         })
     };
 

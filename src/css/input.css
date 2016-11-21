@@ -28,6 +28,7 @@
     color: var(--lightest-text);
     position: absolute;
     cursor: pointer;
+    margin: 0;
 }
 
 .exercise-button:hover {

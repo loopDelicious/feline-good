@@ -88,7 +88,7 @@ class Admin extends Component {
     render() {
 
         return (
-            <div className="admin-panel">
+            <div className="admin-panel cf">
 
                 <List
                     allExercises={this.state.allExercises}

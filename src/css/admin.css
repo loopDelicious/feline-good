@@ -1,5 +1,11 @@
+.admin-panel {
+    height: auto;
+}
+
 #all-exercise-list {
     margin: 15px;
+    padding: 5px;
+    border-left: 1px solid var(--lightest-text);
 }
 
 #all-exercise-list ul {
@@ -15,4 +21,8 @@
 
 #all-exercise-list a {
     margin: 10px;
+}
+
+#exercise-input {
+    float: right;
 }

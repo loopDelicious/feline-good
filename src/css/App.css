@@ -9,6 +9,7 @@ a:hover {
 h3 {
     color: var(--main-color);
     font-size: 20px;
+    font-weight: bold;
     margin-bottom: 15px;
 }
 
@@ -30,9 +31,17 @@ button:hover {
 .exercise-wrapper {
     padding: 0 25px;
     margin: 15px 0;
-    max-width: 1000px;
+    max-width: 1200px;
+
 }
 
 .when-logged-in {
     float: right;
+}
+
+.when-logged-in a {
+    float: right;
+    text-align: left;
+    line-height: 15px;
+    margin-bottom: 5px;
 }

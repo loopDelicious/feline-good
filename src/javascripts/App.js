@@ -41,7 +41,7 @@ class App extends Component {
             <div className="exercise-wrapper cf">
 
                 { this.state.loggedIn ?
-                    <div className="when-logged-in">
+                    <div className="when-logged-in cf">
 
                         <a href="#" onClick={this.handleLogout}>Log Out</a>
                         <br />

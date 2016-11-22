@@ -20,3 +20,5 @@ Run server
 
     `$ nodemon src/server.js`
     
+Install Redis
+    

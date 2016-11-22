@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Admin from './admin.js';
 import Workout from './workout.js';
 import Login from './login.js';
+import $ from 'jquery';
 
 class App extends Component {
 
@@ -18,8 +19,14 @@ class App extends Component {
     };
 
     handleLogout = () => {
-        this.setState({
-            loggedIn: false
+        $.ajax({
+            url: 'http://localhost:5000/logout',
+            method: 'post',
+            success: () => {
+                this.setState({
+                    loggedIn: false
+                });
+            }
         });
     };
 

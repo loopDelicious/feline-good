@@ -2,9 +2,14 @@ var express = require('express');
 var request = require('request');
 var bodyParser = require('body-parser');
 var key = require('../secrets.js');
-var bcrypt = require("bcryptjs");
+var bcrypt = require('bcryptjs');
+
+var redis = require('redis');
+var session = require('express-session');
+var redisStore = require('connect-redis')(session);
 
 var app = express();
+var client = redis.createClient();
 
 // allow CORS access
 app.use(function(req, res, next) {
@@ -14,6 +19,19 @@ app.use(function(req, res, next) {
     res.header("Content-Type", "application/json");
     next();
 });
+
+app.use(session({
+    secret: 'ssshhhhh',
+    // create new redis store.
+    store: new redisStore({
+        host: 'localhost',
+        port: 6379,
+        client: client,
+        ttl :  260
+    }),
+    saveUninitialized: false,
+    resave: false
+}));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -96,6 +114,13 @@ app.put('/edit', function(req, res) {
     });
 });
 
+// TODO: send session / cookie with every request
+// either store sessions in Redis (preferred) or create a new collection called sessions
+// server creates unique session cookie and returns to client to send with every request
+// First time login requires server to generate session cookie and stores it in Redis
+// Redis stores session key and admin / user as value
+// generate cookie key, then update user when logged in, else anonymous user
+
 // DELETE request to DELETE an exercise from db
 app.delete('/delete', function(req, res) {
 
@@ -139,6 +164,10 @@ app.post('/register', function(req, res) {
             }
         }, function (error, response, body) {
             if (!error && response.statusCode == 200) {
+
+                // when user creates account, set the key to redis.
+                req.session.key = req.body.email;
+
                 res.send(body);
             }
             else {
@@ -162,14 +191,30 @@ app.post('/login', function(req, res) {
             'Content-Type': 'application/json'
         }
     }, function (error, response, body) {
+
         var user = JSON.parse(body);
         var hash = JSON.stringify(user[0].hash);
 
         if (user != null && bcrypt.compareSync(password.slice(1,-1), hash.slice(1,-1))) {
+
+            // when user logs in, set the key to redis.
+            req.session.key = req.body.email;
+
             res.json(body);
         } else   {
             res.status(422);
             res.send('None shall pass');
+        }
+    });
+});
+
+// POST to logout
+app.post('/logout', function(req, res) {
+    req.session.destroy( (err) => {
+        if (err) {
+            res.send(err);
+        } else {
+            res.redirect('/');
         }
     });
 });

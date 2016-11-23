@@ -24,7 +24,7 @@ class Login extends Component {
         var password = this.refs.password.value;
 
         $.ajax({
-            url: this.state.existingUser ? 'http://' + this.host + ':5000/login' : 'http://' + this.host + ':5000/register',
+            url: this.state.existingUser ? 'http://' + this.host + ':6000/login' : 'http://' + this.host + ':6000/register',
             method: 'post',
             data: {
                 email: email,

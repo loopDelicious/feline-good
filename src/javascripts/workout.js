@@ -6,7 +6,7 @@ class Workout extends Component {
     state = {
         exercises: [],
     };
-    
+
     host = window.location.hostname;
 
     shuffle = (a) => {
@@ -26,7 +26,7 @@ class Workout extends Component {
 
     handleGetWorkout = () => {
         $.ajax({
-            url: 'http://' + this.host + ':5000/all',
+            url: 'http://' + this.host + ':6000/all',
             type: 'get',
             contentType: "application/json",
             success: (objList) => {

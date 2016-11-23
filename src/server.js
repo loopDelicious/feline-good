@@ -103,8 +103,6 @@ app.put('/edit', function(req, res) {
             res.send(body);
         }
         else {
-            console.log(response.statusCode, body, error);
-
             res.status(400).send(error);
         }
     });
@@ -219,4 +217,4 @@ app.post('/logout', function(req, res) {
 });
 
 
-app.listen(process.env.PORT || 5000);
+app.listen(process.env.PORT || 6000);

@@ -12,6 +12,8 @@ class App extends Component {
         loggedIn: false
     };
 
+    host = window.location.hostname;
+
     userLoggedIn = () => {
         this.setState({
             loggedIn: true,
@@ -23,8 +25,6 @@ class App extends Component {
             url: 'http://' + this.host + ':5000/logout',
             method: 'post',
             success: (data) => {
-                console.log(data);
-                console.log('client-side');
                 this.setState({
                     loggedIn: false
                 });

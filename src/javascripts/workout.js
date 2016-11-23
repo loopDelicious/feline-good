@@ -6,6 +6,8 @@ class Workout extends Component {
     state = {
         exercises: [],
     };
+    
+    host = window.location.hostname;
 
     shuffle = (a) => {
         for (let i = a.length; i; i--) {

@@ -85,12 +85,12 @@ app.post('/add', function(req, res) {
 app.put('/edit', function(req, res) {
 
     var data = {
-        _id: {$oid: req.body._id},
         title: req.body.title,
         benefit: req.body.benefit
     };
+    var id = req.body._id;
 
-    var url = baseUrl + '/databases/fitness/collections/exercises?apiKey=' + key;
+    var url = baseUrl + '/databases/fitness/collections/exercises' + encodeURIComponent(id) + '?apiKey=' + key;
 
     request.put({
         url: url,
@@ -103,6 +103,8 @@ app.put('/edit', function(req, res) {
             res.send(body);
         }
         else {
+            console.log(response.statusCode, body, error);
+
             res.status(400).send(error);
         }
     });
@@ -111,10 +113,9 @@ app.put('/edit', function(req, res) {
 // DELETE request to DELETE an exercise from db
 app.delete('/delete', function(req, res) {
 
-    var response = JSON.stringify(req.body);
-    var id = response.slice(2,-5);
+    var id = req.body.id;
 
-    var url = baseUrl + '/databases/fitness/collections/exercises/' + id + '?apiKey=' + key;
+    var url = baseUrl + '/databases/fitness/collections/exercises/' + encodeURIComponent(id) + '?apiKey=' + key;
 
     request.delete(url, function (error, response, body) {
         if (!error && response.statusCode == 200) {
@@ -177,7 +178,7 @@ app.post('/login', function(req, res) {
     var email = req.body.email;
     var password = req.body.password;
 
-    var url = baseUrl + '/databases/fitness/collections/users?q={email:' + JSON.stringify(email) + '}&apiKey=' + key;
+    var url = baseUrl + '/databases/fitness/collections/users?q={email:"' + encodeURIComponent(email) + '"}&apiKey=' + key;
 
     request.get({
         url: url,
@@ -189,7 +190,6 @@ app.post('/login', function(req, res) {
         var user = JSON.parse(body);
 
         if (user != null) {
-            console.log(user);
 
             var hash = user[0].hash;
 

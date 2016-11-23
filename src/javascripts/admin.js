@@ -9,6 +9,8 @@ class Admin extends Component {
         allExercises: [],
     };
 
+    host = window.location.hostname;
+
     componentDidMount() {
         $.ajax({
             url: 'http://' + this.host + ':5000/all',
@@ -71,12 +73,15 @@ class Admin extends Component {
 
         $.ajax({
             url: 'http://' + this.host + ':5000/delete',
-            data: exercise,
+            data: { 'id': exercise},
             type: 'delete',
             success: (data) => {
-                var oidToBeDeleted = data._id.$oid;
-                var newList = this.state.allExercises.filter( (exercise) => {
-                    return exercise._id.$oid !== oidToBeDeleted
+
+                var response = JSON.parse(data);
+                var oidToBeDeleted = response._id.$oid;
+
+                var newList = this.state.allExercises.filter( (exerciseObj) => {
+                    return exerciseObj._id.$oid !== oidToBeDeleted
                 });
                 this.setState({
                     allExercises: newList

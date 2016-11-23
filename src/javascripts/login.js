@@ -8,6 +8,8 @@ class Login extends Component {
         error: false
     };
 
+    host = window.location.hostname;
+
     handleToggle() {
         this.state.existingUser = !this.state.existingUser;
         this.setState({

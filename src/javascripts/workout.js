@@ -24,7 +24,7 @@ class Workout extends Component {
 
     handleGetWorkout = () => {
         $.ajax({
-            url: 'http://localhost:5000/all',
+            url: 'http://' + this.host + ':5000/all',
             type: 'get',
             contentType: "application/json",
             success: (objList) => {

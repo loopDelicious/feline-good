@@ -11,7 +11,7 @@ class Admin extends Component {
 
     componentDidMount() {
         $.ajax({
-            url: 'http://localhost:5000/all',
+            url: 'http://' + this.host + ':5000/all',
             type: 'get',
             success: function(obj) {
                 var concatted = this.state.allExercises.concat(obj);
@@ -24,7 +24,7 @@ class Admin extends Component {
 
     handleAdd = (data) => {
         $.ajax({
-            url: 'http://localhost:5000/add',
+            url: 'http://' + this.host + ':5000/add',
             type: 'post',
             data: data,
             success: function(obj) {
@@ -42,7 +42,7 @@ class Admin extends Component {
         var forSuccess = obj;
 
         $.ajax({
-            url: 'http://localhost:5000/edit',
+            url: 'http://' + this.host + ':5000/edit',
             type: 'put',
             data: obj,
             success: () => {
@@ -70,7 +70,7 @@ class Admin extends Component {
     handleDelete = (exercise) => {
 
         $.ajax({
-            url: 'http://localhost:5000/delete',
+            url: 'http://' + this.host + ':5000/delete',
             data: exercise,
             type: 'delete',
             success: (data) => {

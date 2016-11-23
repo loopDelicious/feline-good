@@ -20,7 +20,7 @@ class App extends Component {
 
     handleLogout = () => {
         $.ajax({
-            url: 'http://localhost:5000/logout',
+            url: 'http://' + this.host + ':5000/logout',
             method: 'post',
             success: (data) => {
                 console.log(data);
@@ -64,7 +64,7 @@ class App extends Component {
                         }
                     </div>
                     :
-                    <Login loginCallback={this.userLoggedIn} adminCallback={this.userAdmin} />
+                    window.location.hash === '#login' ? <Login loginCallback={this.userLoggedIn} adminCallback={this.userAdmin}/> : null
                 }
 
                 { this.state.adminToggle ? <Admin /> : <Workout /> }

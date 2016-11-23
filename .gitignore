@@ -17,3 +17,6 @@ npm-debug.log
 
 secrets.js
 src/examples/
+
+# redis
+*.rdb

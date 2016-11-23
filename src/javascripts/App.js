@@ -22,10 +22,15 @@ class App extends Component {
         $.ajax({
             url: 'http://localhost:5000/logout',
             method: 'post',
-            success: () => {
+            success: (data) => {
+                console.log(data);
+                console.log('client-side');
                 this.setState({
                     loggedIn: false
                 });
+            },
+            error: () => {
+                console.log('error');
             }
         });
     };

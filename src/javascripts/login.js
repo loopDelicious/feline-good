@@ -30,7 +30,6 @@ class Login extends Component {
             },
             dataType: 'json',
             success: (data) => {
-                // TODO: add admin true/false
 
                 if (data != null && JSON.parse(data)[0].admin) { this.props.adminCallback(); }
                 this.setState({

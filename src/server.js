@@ -38,12 +38,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 var baseUrl = 'https://api.mlab.com/api/1';
 
-app.get('/', function(req, res) {
-
-    req.pipe(request(url)).pipe(res);
-
-});
-
 // ***************** EXERCISES collection **********************
 
 // GET request to return ALL exercises from db
@@ -114,13 +108,6 @@ app.put('/edit', function(req, res) {
     });
 });
 
-// TODO: send session / cookie with every request
-// either store sessions in Redis (preferred) or create a new collection called sessions
-// server creates unique session cookie and returns to client to send with every request
-// First time login requires server to generate session cookie and stores it in Redis
-// Redis stores session key and admin / user as value
-// generate cookie key, then update user when logged in, else anonymous user
-
 // DELETE request to DELETE an exercise from db
 app.delete('/delete', function(req, res) {
 
@@ -131,15 +118,22 @@ app.delete('/delete', function(req, res) {
 
     request.delete(url, function (error, response, body) {
         if (!error && response.statusCode == 200) {
-            res.send(body);
+            res.json(body);
         }
         else {
-            res.status(400).send(error);
+            res.status(400).json(error);
         }
     });
 });
 
 // ***************** USERS collection **********************
+
+// TODO: send session / cookie with every request
+// store sessions in Redis (preferred)
+// server creates unique session cookie and returns to client to send with every request
+// First time login requires server to generate session cookie and stores it in Redis
+// Redis stores session key and admin / user as value
+// generate cookie key, then update user when logged in, else anonymous user
 
 // POST to ADD new user to users collection
 app.post('/register', function(req, res) {
@@ -168,10 +162,10 @@ app.post('/register', function(req, res) {
                 // when user creates account, set the key to redis.
                 req.session.key = req.body.email;
 
-                res.send(body);
+                res.json(body);
             }
             else {
-                res.status(400).send(error);
+                res.status(400).json(error);
             }
         });
     });
@@ -180,10 +174,10 @@ app.post('/register', function(req, res) {
 // POST to verify user in users table
 app.post('/login', function(req, res) {
 
-    var email = JSON.stringify(req.body.email);
-    var password = JSON.stringify(req.body.password);
+    var email = req.body.email;
+    var password = req.body.password;
 
-    var url = baseUrl + '/databases/fitness/collections/users?q={email:' + email + '}&apiKey=' + key;
+    var url = baseUrl + '/databases/fitness/collections/users?q={email:' + JSON.stringify(email) + '}&apiKey=' + key;
 
     request.get({
         url: url,
@@ -193,17 +187,22 @@ app.post('/login', function(req, res) {
     }, function (error, response, body) {
 
         var user = JSON.parse(body);
-        var hash = JSON.stringify(user[0].hash);
 
-        if (user != null && bcrypt.compareSync(password.slice(1,-1), hash.slice(1,-1))) {
+        if (user != null) {
+            console.log(user);
 
-            // when user logs in, set the key to redis.
-            req.session.key = req.body.email;
+            var hash = user[0].hash;
 
-            res.json(body);
-        } else   {
-            res.status(422);
-            res.send('None shall pass');
+            if (bcrypt.compareSync(password, hash)) {
+
+                // when user logs in, set the key to redis.
+                req.session.key = req.body.email;
+
+                res.json(body);
+            } else {
+                res.status(422);
+                res.json('None shall pass');
+            }
         }
     });
 });
@@ -212,9 +211,9 @@ app.post('/login', function(req, res) {
 app.post('/logout', function(req, res) {
     req.session.destroy( (err) => {
         if (err) {
-            res.send(err);
+            res.json(err);
         } else {
-            res.redirect('/');
+            res.json('success');
         }
     });
 });

@@ -217,4 +217,4 @@ app.post('/logout', function(req, res) {
 });
 
 
-app.listen(process.env.PORT || 6000);
+app.listen(process.env.PORT || 5500);

@@ -22,7 +22,7 @@ class App extends Component {
 
     handleLogout = () => {
         $.ajax({
-            url: 'http://' + this.host + ':6000/logout',
+            url: 'http://' + this.host + ':5500/logout',
             method: 'post',
             success: (data) => {
                 this.setState({

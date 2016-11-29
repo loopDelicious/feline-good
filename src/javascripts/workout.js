@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import $ from 'jquery';
+import Email from './email.js';
 
 class Workout extends Component {
 
@@ -86,6 +87,9 @@ class Workout extends Component {
                             <ul id="exercise-list">
                                 {exercises}
                             </ul>
+                            <Email
+                                exercises={this.state.exercises}
+                            />
                         </div>
                     }
                 </div>

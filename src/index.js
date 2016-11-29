@@ -7,6 +7,7 @@ import './css/variables.css';
 import './css/App.css';
 import './css/login.css';
 import './css/workout.css';
+import './css/email.css';
 import './css/admin.css';
 import './css/input.css';
 import './css/dropdown.css';

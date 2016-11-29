@@ -1,0 +1,32 @@
+#email-input {
+    margin-top: 40px;
+}
+
+.email-text {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    border: 1px solid var(--lightest-text);
+    border-radius: 4px 0 0 4px;
+    height: 30px;
+    width: 300px;
+    position: relative;
+    margin-left: 40px;
+    padding-left: 10px;
+    font-size: 16px;
+}
+
+.email-button {
+    height: 30px;
+    font-size: 16px;
+    border: 1px solid transparent;
+    border-radius: 0 4px 4px 0;
+    color: var(--lightest-text);
+    position: absolute;
+    cursor: pointer;
+    margin: 0;
+}
+
+.email-button:hover {
+    color: white;
+}

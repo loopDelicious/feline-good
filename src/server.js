@@ -43,7 +43,7 @@ var baseUrl = 'https://api.mlab.com/api/1';
 // GET request to return ALL exercises from db
 app.get('/all', function (req, res) {
 
-    var url = baseUrl + '/databases/fitness/collections/exercises?apiKey=' + key;
+    var url = baseUrl + '/databases/fitness/collections/exercises?apiKey=' + key.mlab;
 
     request.get(url, function (error, response, body) {
         if (!error && response.statusCode == 200) {
@@ -63,7 +63,7 @@ app.post('/add', function(req, res) {
         benefit: req.body.benefit.toLowerCase()
     };
 
-    var url = baseUrl + '/databases/fitness/collections/exercises?apiKey=' + key;
+    var url = baseUrl + '/databases/fitness/collections/exercises?apiKey=' + key.mlab;
 
     request.post({
         url: url,
@@ -90,7 +90,7 @@ app.put('/edit', function(req, res) {
     };
     var id = req.body._id;
 
-    var url = baseUrl + '/databases/fitness/collections/exercises' + encodeURIComponent(id) + '?apiKey=' + key;
+    var url = baseUrl + '/databases/fitness/collections/exercises' + encodeURIComponent(id) + '?apiKey=' + key.mlab;
 
     request.put({
         url: url,
@@ -113,7 +113,7 @@ app.delete('/delete', function(req, res) {
 
     var id = req.body.id;
 
-    var url = baseUrl + '/databases/fitness/collections/exercises/' + encodeURIComponent(id) + '?apiKey=' + key;
+    var url = baseUrl + '/databases/fitness/collections/exercises/' + encodeURIComponent(id) + '?apiKey=' + key.mlab;
 
     request.delete(url, function (error, response, body) {
         if (!error && response.statusCode == 200) {
@@ -141,7 +141,7 @@ app.post('/register', function(req, res) {
 
     var hash = bcrypt.hash(req.body.password, 8, function(err, hash) {
 
-        var url = baseUrl + '/databases/fitness/collections/users?apiKey=' + key;
+        var url = baseUrl + '/databases/fitness/collections/users?apiKey=' + key.mlab;
 
         var data = {
             email: email,
@@ -176,7 +176,7 @@ app.post('/login', function(req, res) {
     var email = req.body.email;
     var password = req.body.password;
 
-    var url = baseUrl + '/databases/fitness/collections/users?q={email:"' + encodeURIComponent(email) + '"}&apiKey=' + key;
+    var url = baseUrl + '/databases/fitness/collections/users?q={email:"' + encodeURIComponent(email) + '"}&apiKey=' + key.mlab;
 
     request.get({
         url: url,
@@ -212,6 +212,38 @@ app.post('/logout', function(req, res) {
             res.json(err);
         } else {
             res.json('success');
+        }
+    });
+});
+
+// ***************** MISC **********************
+
+// POST to send email
+app.post('/email', function(req, res) {
+    var email = req.body.email;
+    var exercises = req.body.exercises;
+
+    var url = 'https://api.sparkpost.com/api/v1';
+
+    request.post({
+        url: url,
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': key.sparkpost
+        },
+        content: {
+            "from": "sandbox@sparkpostbox.com",
+            "subject": "Feline Good",
+            "text": exercises
+        },
+        recipients: [{ "address": email }]
+    }, function (error, response, body) {
+
+        if (!error && response.statusCode == 200) {
+            res.send(body);
+        }
+        else {
+            res.status(400).send(body);
         }
     });
 });

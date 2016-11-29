@@ -220,30 +220,39 @@ app.post('/logout', function(req, res) {
 
 // POST to send email
 app.post('/email', function(req, res) {
+
     var email = req.body.email;
     var exercises = req.body.exercises;
 
-    var url = 'https://api.sparkpost.com/api/v1';
+    var url = 'https://api.sparkpost.com/api/v1/transmissions';
 
-    request.post({
-        url: url,
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': key.sparkpost
-        },
+    console.log(exercises);
+
+    var data = {
         content: {
             "from": "sandbox@sparkpostbox.com",
             "subject": "Feline Good",
             "text": exercises
         },
         recipients: [{ "address": email }]
-    }, function (error, response, body) {
+    };
+
+    request.post({
+        url: url,
+        method: 'POST',
+        headers: {
+            "content-type": "application/json",
+            // "accept": "application/json",
+            "authorization": key.sparkpost
+        },
+        body: JSON.stringify(data)
+    }, function (error, response) {
 
         if (!error && response.statusCode == 200) {
-            res.send(body);
+            res.send('ok');
         }
         else {
-            res.status(400).send(body);
+            res.status(400).send('bad');
         }
     });
 });

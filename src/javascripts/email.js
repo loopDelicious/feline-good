@@ -3,6 +3,8 @@ import $ from 'jquery';
 
 class Email extends Component {
 
+    host = window.location.hostname;
+
     // http://stackoverflow.com/questions/46155/validate-email-address-in-javascript
     isValid = (email) => {
         var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -13,22 +15,24 @@ class Email extends Component {
         e.preventDefault();
 
         var email = this.refs['new-email'].value;
+        var exercises = this.props.exercises.map( (exercise) => {
+            return exercise.title;
+        });
 
         if (this.isValid(email)) {
             $.ajax({
                 url: 'http://' + this.host + ':5500/email',
                 type: 'post',
-                contentType: "application/json",
                 data: {
                     email: email,
-                    exercises: this.props.exercises
+                    exercises: exercises
                 },
                 success: () => {
                     this.refs['email_form'].reset();
                 }
             });
         } else {
-            alert('error');
+            alert('Not a valid email address.');
         }
     };
 

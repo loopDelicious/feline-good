@@ -12,13 +12,21 @@
 
 ### For Development:
 
+Install dependencies
+
+    $ npm install
+
 Start React watcher
 
-    `$ npm start`
-    
+    $ npm start
+
 Run server
 
-    `$ nodemon src/server.js`
-    
+    $ nodemon src/server.js
+
+Run tests
+
+    $ npm run test
+
 Install Redis
-    
+

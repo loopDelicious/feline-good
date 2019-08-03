@@ -1,57 +1,58 @@
-import React, { Component } from 'react';
-import Input from './input.js';
+import React, { Component } from 'react'
+import Input from './input.js'
 
 class List extends Component {
+  currentlyEditing = null;
 
-    currentlyEditing = null;
+  state = {
+    showToggle: false
+  };
 
-    state = {
-        showToggle: false
-    };
+  handleEditToggle = oid => {
+    this.currentlyEditing = oid
+    this.setState({
+      showToggle: !this.state.showToggle
+    })
+  };
 
-    handleEditToggle = (oid) => {
+  render () {
+    return (
+      <ul id="all-exercise-list">
+        <h3>All your Moves</h3>
 
-        this.currentlyEditing = oid;
-        this.setState({
-            showToggle: !this.state.showToggle
-        });
+        {this.props.allExercises.map(exercise => {
+          return (
+            <li key={exercise._id.$oid}>
+              <span>
+                {exercise.title} . . . {exercise.benefit}
+              </span>
 
-    };
+              <a
+                href="#"
+                onClick={this.handleEditToggle.bind(null, exercise._id.$oid)}
+              >
+                edit
+              </a>
 
-    render() {
+              <a
+                href="#"
+                onClick={this.props.delete.bind(null, exercise._id.$oid)}
+              >
+                delete
+              </a>
 
-        return (
-
-            <ul id="all-exercise-list">
-
-                <h3>All your Moves</h3>
-
-                {this.props.allExercises.map( (exercise) => {
-
-                    return (
-                        <li key={exercise._id.$oid}>
-
-                            <span>{exercise.title} . . . {exercise.benefit}</span>
-
-                            <a href="#" onClick={this.handleEditToggle.bind(null, exercise._id.$oid)}>edit</a>
-
-                            <a href="#" onClick={this.props.delete.bind(null, exercise._id.$oid)}>delete</a>
-
-                            { this.currentlyEditing === exercise._id.$oid ?
-
-                                <Input
-                                onSubmit={this.props.edit}
-                                editing={this.currentlyEditing}
-                                />
-
-                            : null }
-
-                        </li>
-                    )})
-                }
-            </ul>
-        )
-    };
+              {this.currentlyEditing === exercise._id.$oid ? (
+                <Input
+                  onSubmit={this.props.edit}
+                  editing={this.currentlyEditing}
+                />
+              ) : null}
+            </li>
+          )
+        })}
+      </ul>
+    )
+  }
 }
 
-export default List;
+export default List
